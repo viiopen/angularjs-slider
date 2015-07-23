@@ -195,6 +195,12 @@ function throttle(func, wait, options) {
     this.valueRange = 0;
 
     /**
+     * Use when the div, where the slider is used, is modified with transform:scale(x)
+     * @type {string|number}
+     */
+    this.scale = this.scope.rzSliderScale || 1;
+
+    /**
      * Set to true if init method already executed
      *
      * @type {boolean}
@@ -325,6 +331,14 @@ function throttle(func, wait, options) {
       unRegFn = this.scope.$watch('rzSliderCeil', function(newValue, oldValue)
       {
         if(newValue === oldValue) { return; }
+        self.resetSlider();
+      });
+      this.deRegFuncs.push(unRegFn);
+
+      unRegFn = this.scope.$watch('rzSliderScale', function(newValue, oldValue)
+      {
+        if(newValue === oldValue) { return; }
+        self.scale = newValue || 1;
         self.resetSlider();
       });
       this.deRegFuncs.push(unRegFn);
@@ -797,7 +811,7 @@ function throttle(func, wait, options) {
     getWidth: function(elem)
     {
       var val = elem[0].getBoundingClientRect();
-      elem.rzsw = val.right - val.left;
+      elem.rzsw = (val.right - val.left) * this.scale;
       return elem.rzsw;
     },
 
@@ -918,7 +932,7 @@ function throttle(func, wait, options) {
       }
 
       sliderLO = this.sliderElem.rzsl;
-      newOffset = eventX - sliderLO - this.handleHalfWidth;
+      newOffset = (eventX - sliderLO - this.handleHalfWidth) * this.scale;
 
       if(newOffset <= 0)
       {
@@ -1041,7 +1055,8 @@ function throttle(func, wait, options) {
       rzSliderTranslate: '&',
       rzSliderHideLimitLabels: '=?',
       rzSliderAlwaysShowBar: '=?',
-      rzSliderPresentOnly: '@'
+      rzSliderPresentOnly: '@',
+      rzSliderScale: '=?'
     },
 
     /**
