@@ -1,3 +1,11 @@
+# viiopen notes
+
+Forked from https://github.com/rzajac/angularjs-slider
+
+## Additions
+
+Modified methods to hide slider handle's label when at the floor or ceiling
+
 ## AngularJS slider directive with no external dependencies
 
 Slider directive implementation for AngularJS, without any dependencies.
@@ -104,7 +112,7 @@ $scope.priceSlider = {
 
 **rz-slider-present-only**
 
-> When set to true slider is used in presentation mode. No handle dragging. 
+> When set to true slider is used in presentation mode. No handle dragging.
 
 **rz-slider-translate**
 
@@ -151,11 +159,11 @@ To force slider to recalculate dimensions broadcast **reCalcViewDimensions** eve
 
 You can also force redraw with **rzSliderForceRender** event.
 
-At the end of each "slide" slider emits `slideEnded` event. 
+At the end of each "slide" slider emits `slideEnded` event.
 
 ```javascript
 $scope.$on("slideEnded", function() {
-     // user finished sliding a handle 
+     // user finished sliding a handle
 });
 ```
 

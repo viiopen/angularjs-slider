@@ -226,6 +226,9 @@ function throttle(func, wait, options) {
     this.maxLab = null; // Label above the high value
     this.cmbLab = null;  // Combined label
 
+    this.showFloorLabel = false;  // true if the slider handle is left justified
+    this.showCeilLabel = false;   // true if the slider handle is right justified
+
     // Initialize slider
     this.init();
   };
@@ -622,6 +625,20 @@ function throttle(func, wait, options) {
 
       if(this.minLab.rzsv && delta < 1) { return; }
 
+      if (newOffset <= 0) {
+        this.hideEl(this.minLab);
+        this.showFloorLabel = true;
+        this.showEl(this.flrLab);
+
+      } else if (newOffset >= this.maxLeft) {
+        this.hideEl(this.minLab);
+        this.showCeilLabel = true;
+        this.showEl(this.ceilLab);
+
+      } else {
+        this.showEl(this.minLab);
+      }
+
       this.setLeft(this.minH, newOffset);
       this.translateFn(this.scope.rzSliderModel, this.minLab);
       this.setLeft(this.minLab, newOffset - this.minLab.rzsw / 2 + this.handleHalfWidth);
@@ -656,7 +673,8 @@ function throttle(func, wait, options) {
       if(this.minLab.rzsl <= this.flrLab.rzsl + this.flrLab.rzsw + 5)
       {
         flHidden = true;
-        this.hideEl(this.flrLab);
+        if (!this.showFloorLabel) this.hideEl(this.flrLab);
+        this.showFloorLabel = false;
       }
       else
       {
@@ -667,7 +685,8 @@ function throttle(func, wait, options) {
       if(this.minLab.rzsl + this.minLab.rzsw >= this.ceilLab.rzsl - this.handleHalfWidth - 10)
       {
         clHidden = true;
-        this.hideEl(this.ceilLab);
+        if (!this.showCeilLabel) this.hideEl(this.ceilLab);
+        this.showCeilLabel = false;
       }
       else
       {
