@@ -625,23 +625,35 @@ function throttle(func, wait, options) {
 
       if(this.minLab.rzsv && delta < 1) { return; }
 
-      if (newOffset <= 0) {
-        this.hideEl(this.minLab);
-        this.showFloorLabel = true;
-        this.showEl(this.flrLab);
+      // SRG - EXPERIMENTALLY COMMENTING THIS OUT! 08/24/15
 
-      } else if (newOffset >= this.maxLeft) {
-        this.hideEl(this.minLab);
-        this.showCeilLabel = true;
-        this.showEl(this.ceilLab);
+      // if (newOffset <= 0) {
+      //   this.hideEl(this.minLab);
+      //   this.showFloorLabel = true;
+      //   this.showEl(this.flrLab);
 
-      } else {
-        this.showEl(this.minLab);
-      }
+      // } else if (newOffset >= this.maxLeft) {
+      //   this.hideEl(this.minLab);
+      //   this.showCeilLabel = true;
+      //   this.showEl(this.ceilLab);
+
+      // } else {
+      //   this.showEl(this.minLab);
+      // }
 
       this.setLeft(this.minH, newOffset);
       this.translateFn(this.scope.rzSliderModel, this.minLab);
-      this.setLeft(this.minLab, newOffset - this.minLab.rzsw / 2 + this.handleHalfWidth);
+      // this.setLeft(this.minLab, newOffset - this.minLab.rzsw / 2 + this.handleHalfWidth);
+      if (newOffset <= 0) {
+        this.setLeft(this.minLab, 0);
+      }
+      else if (newOffset >= this.maxLeft) {
+        this.setLeft(this.minLab, newOffset - this.minLab.rzsw + this.handleHalfWidth);
+      }
+      else {
+        this.setLeft(this.minLab, newOffset - this.minLab.rzsw / 2 + this.handleHalfWidth);
+      }
+      
 
       this.shFloorCeil();
     },
