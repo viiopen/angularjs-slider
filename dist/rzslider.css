@@ -114,5 +114,6 @@ rzslider span.rz-bubble.rz-limit:nth-child(0n+3) {
 }
 
 rzslider span.rz-bubble.rz-limit:nth-child(0n+4) {
-  right: 0;
+  right: 0 !important;
+  left: auto !important;
 }
